@@ -25,6 +25,55 @@ app.get('/api/user', function(req, res) {
     res.send(ans);
 });
 
+
+app.get('/api/statistic/lineGraph', function (req, res) {
+    console.log('GET /api/statistic/lineGraph');
+
+    const randomValue = () => Math.floor(Math.random() * (2000 - 1000 + 1)) + 1000;
+
+    const ans = [
+        [
+            {date: JSON.stringify(new Date(2017, 02, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 03, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 04, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 05, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 06, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 07, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 08, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 09, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 10, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 11, 31)), value: randomValue()}
+        ],
+        [
+            {date: JSON.stringify(new Date(2017, 02, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 03, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 04, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 05, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 06, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 07, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 08, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 09, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 10, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 11, 31)), value: randomValue()}
+        ],
+        [
+            {date: JSON.stringify(new Date(2017, 02, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 03, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 04, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 05, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 06, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 07, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 08, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 09, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 10, 31)), value: randomValue()},
+            {date: JSON.stringify(new Date(2017, 11, 31)), value: randomValue()}
+        ]
+    ];
+
+    res.send(ans);
+
+});
+
 app.listen(8080, function () {
     console.log('mock server is listening on port 8080');
 });
