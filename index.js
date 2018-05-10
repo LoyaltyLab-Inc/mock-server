@@ -5,6 +5,7 @@ const productsFile = 'products.json';
 const usersFile = 'users.json';
 const productsFileTemp = 'productsTemp.json';
 const shopsFile = 'shops.json';
+const graphFile = 'graph-data.json';
 const cors = require('cors');
 
 const app = express();
@@ -16,6 +17,39 @@ app.use(bodyParser.json());
 
 // Helpers
 //---------------------------------------------------------------------------------
+function smartProductGraphRandom() {
+	const firstRandom = () => Math.floor((Math.random() * (500 - 50 + 1)) + 50);
+	const nextRandom = () => Math.floor((Math.random() - 0.5) * 2 * (100 - 10 + 1)) + 10;
+	const firstDate = new Date(2017, 01, 31);
+	console.log(firstDate);
+
+	function toPush(lastElem, i) {
+		const elem = {};
+		const lastElemDate = new Date(JSON.parse(lastElem.date));
+
+		const next = nextRandom();
+
+		elem.date = JSON.stringify(new Date(lastElemDate.setMonth(lastElemDate.getMonth() + 1)));
+		elem.value = (lastElem.value + next >= 0 ? lastElem.value + next : lastElem.value - next);
+
+		return elem;
+	}
+
+	const first = firstRandom();
+
+	ans = [
+		[
+			{date: JSON.stringify(firstDate), value: first}
+		]
+	];
+
+	for(let i = 1; i < 15; i++) {
+		ans[0].push(toPush(ans[0][i - 1], i));
+	}
+
+	return ans;
+}
+
 function filterShops (shops, searchText) {
     const ans = [];
     if (searchText === 'undefined')
@@ -31,48 +65,10 @@ function filterShops (shops, searchText) {
 }
 
 function generateGraphData(type) {
-    const randomValue = () => Math.floor(Math.random() * (2000 - 1000 + 1)) + 1000;
-    
-    const ans = [
-        [
-            {date: JSON.stringify(new Date(2017, 02, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 03, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 04, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 05, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 06, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 07, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 08, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 09, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 10, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 11, 31)), value: randomValue()}
-        ],
-        [
-            {date: JSON.stringify(new Date(2017, 02, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 03, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 04, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 05, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 06, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 07, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 08, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 09, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 10, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 11, 31)), value: randomValue()}
-        ],
-        [
-            {date: JSON.stringify(new Date(2017, 02, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 03, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 04, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 05, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 06, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 07, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 08, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 09, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 10, 31)), value: randomValue()},
-            {date: JSON.stringify(new Date(2017, 11, 31)), value: randomValue()}
-        ]
-    ];
+    const ans = jsonfile.readFileSync(graphFile);
+
     if (type === 'product') {
-        return [ans[0]];
+        return smartProductGraphRandom();
     }
     return ans;
 }
